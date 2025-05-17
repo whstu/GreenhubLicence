@@ -3,7 +3,7 @@
 # GreenHubLicence
 获取 GreenHub 许可证。
 
-## 获取到的 GreenHub 许可证 （2025-05-17 22:14 更新）（时间标准：UTC+0）
+## 获取到的 GreenHub 许可证 （2025-05-17 23:15 更新）（时间标准：UTC+0）
 ```
 SKUN-yNGJ-zVGw-gBC8-5DFF
 SKTU-gr45-AVn8-IpC8-D9AE
