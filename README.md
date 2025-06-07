@@ -3,7 +3,7 @@
 # GreenHubLicence
 获取 GreenHub 许可证。
 
-## 获取到的 GreenHub 许可证 （2025-06-07 22:15 更新）（时间标准：UTC+0）
+## 获取到的 GreenHub 许可证 （2025-06-07 23:17 更新）（时间标准：UTC+0）
 ```
 SSM9-xYjn-xjwZ-xQC8-E281
 SSKm-8zES-jfzs-rzC8-D581
