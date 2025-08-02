@@ -1,0 +1,24 @@
+name: Squash Commits
+
+on:
+  schedule:
+    - cron: '*/60 * * * *'  # 每 60 分钟触发一次
+
+jobs:
+  squash:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Configure git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Squash commits
+      run: |
+        git reset --soft $(git rev-list --max-parents=0 HEAD)
+        git commit --amend -m "Squashed commit"
+        git push --force
