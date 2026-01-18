@@ -3,7 +3,7 @@
 # GreenHubLicence
 获取 GreenHub 许可证。
 
-## 获取到的 GreenHub 许可证 （2026-01-18 05:21 更新）（时间标准：UTC+0）
+## 获取到的 GreenHub 许可证 （2026-01-18 06:28 更新）（时间标准：UTC+0）
 ```
 No license code
 No license code
