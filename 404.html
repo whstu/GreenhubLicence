@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="智能 404 页面 - 您的数字导航助手">
+    <title>404 | 资源导航中心</title>
+    
+    <!-- 性能优化 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com"  crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto+Mono:wght@300&display=swap"  rel="stylesheet">
+    <link rel="icon" href="https://example.com/favicon.ico"  type="image/x-icon">
+    
+    <!-- 渐进增强样式 -->
+    <style>
+    :root {
+        --gradient-1: #f8f9fa;
+        --gradient-2: #e9ecef;
+        --primary-accent: #ff6b6b;
+        --card-bg: linear-gradient(145deg, #2d3436 0%, #1d1d1d 100%);
+        --text-primary: #333;
+        --text-secondary: #666;
+        --surface-blur: blur(10px);
+    }
+ 
+    /* 基础重置 */
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+ 
+    body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+        background-size: 200% 200%;
+        color: var(--text-primary);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 1rem;
+        animation: gradientShift 15s ease infinite;
+    }
+ 
+    /* 动态时间样式 */
+    .time-container {
+        position: fixed;
+        top: 1.5rem;
+        right: 2rem;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        font-family: 'Roboto Mono', monospace;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+ 
+    /* 增强容器 */
+    .container {
+        max-width: 88vw;
+        padding: 2.5rem;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: var(--surface-blur);
+        border-radius: 20px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        transform: translateY(0);
+        opacity: 1;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+ 
+    /* 动态标题系统 */
+    h1.error-code  {
+        font-size: clamp(3rem, 10vw, 5rem);
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        position: relative;
+        color: var(--primary-accent);
+        text-shadow: 0 4px 12px rgba(255, 107, 107, 0.25);
+    }
+ 
+    /* 服务导航矩阵 */
+    .service-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.25rem;
+        margin: 2rem 0;
+    }
+ 
+    /* 三维卡片设计 */
+    .service-card {
+        --card-padding: 1.5rem;
+        position: relative;
+        background: var(--card-bg);
+        padding: var(--card-padding);
+        border-radius: 12px;
+        color: white;
+        text-decoration: none;
+        transform-style: preserve-3d;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+ 
+    /* 卡片悬停动效 */
+    .service-card:hover {
+        transform: translateY(-6px) rotateX(5deg) rotateY(2deg) scale(1.03);
+        box-shadow: 0 12px 30px rgba(255, 107, 107, 0.3);
+    }
+ 
+    /* 响应式调整 */
+    @media (max-width: 640px) {
+        .container {
+            padding: 1.5rem;
+            border-radius: 16px;
+        }
+        
+        .service-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+ 
+    /* 动画系统 */
+    @keyframes gradientShift {
+        0% { background-position: 0% 50% }
+        50% { background-position: 100% 50% }
+        100% { background-position: 0% 50% }
+    }
+ 
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="time-container" id="liveTime">2025年02月19日 18:35 周三</div>
+ 
+    <main class="container">
+        <h1 class="error-code" aria-label="404 错误代码">404</h1>
+        
+        <section class="error-message" aria-labelledby="errorDescription">
+            <h2 id="errorDescription" class="sr-only">错误描述</h2>
+            <p>当前访问路径已进入量子隧穿状态，建议通过以下服务节点继续探索：</p>
+        </section>
+ 
+        <nav class="service-grid" aria-label="服务导航">
+            <a href="https://qmwneb946.dpdns.org"  class="service-card" target="_blank" rel="noopener" aria-label="主站服务">
+                <h3>主站入口</h3>
+                <p class="card-description">核心服务中枢</p>
+            </a>
+        </nav>
+
+         <footer class="site-footer">
+            <p>需要帮助？<a href="https://d.qmwneb946.dpdns.org/contact"  target="_blank" rel="noopener">联系我们</a></p>
+        </footer>
+    </main>
+ 
+    <!-- 动态时间脚本 -->
+    <script>
+    function updateLiveTime() {
+        const options = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            weekday: 'short',
+            hour12: false 
+        };
+        
+        const formatter = new Intl.DateTimeFormat('zh-CN', options);
+        const liveTimeElement = document.getElementById('liveTime'); 
+        
+        function refreshTime() {
+            const now = new Date();
+            liveTimeElement.textContent  = formatter.format(now) 
+                .replace(/(\d+)\/(\d+)\/(\d+),/, '$3年$1月$2日')
+                .replace('星期', '周');
+        }
+        
+        refreshTime();
+        setInterval(refreshTime, 1000);
+    }
+    updateLiveTime();
+    </script>
+</body>
+</html>
