@@ -1,0 +1,89 @@
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "*/59 * * * *"  # 每 60 分钟运行一次
+  workflow_dispatch:
+
+jobs:
+  update_readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出仓库
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 设置 Python 环境
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      # 安装依赖
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      # 运行 get.py 从 Stripe 获取许可证代码
+      - name: Run get.py to fetch license codes from Stripe
+        run: python get.py
+
+      # 检查 license_codes.txt 文件内容
+      - name: Check license_codes.txt content
+        run: cat license_codes.txt
+
+      # 更新 README.md 和日期文件
+      - name: Update README.md and Date.md with fetched license codes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 获取当前日期和时间
+          current_year=$(date +"%Y")
+          current_month=$(date +"%m")
+          current_day=$(date +"%d")
+          current_hour=$(date +"%H")
+          current_minute=$(date +"%M")  # 获取当前分钟
+          current_date=$(date +"%Y-%m-%d %H:%M")  # 使用年月日和小时分钟
+          git pull -f
+          # 创建目录（如果不存在则递归创建），按年、月、日、小时存储
+          mkdir -p "$current_year/$current_month/$current_day"
+          
+          # 检查 license_codes.txt 是否存在且不为空
+          if [ ! -s license_codes.txt ]; then
+            echo "license_codes.txt 文件为空或不存在，停止执行."
+            exit 1
+          fi
+          
+          # 读取获取到的 license_code 信息
+          license_codes=$(cat license_codes.txt)
+          echo "Fetched license codes:"
+          echo "$license_codes"
+          
+          # 更新 README.md
+          echo "[![.github/workflows/stripe_to_readme.yml](https://github.com/whstu/GreenHubLicence/actions/workflows/stripe_to_readme.yml/badge.svg)](https://github.com/whstu/GreenHubLicence/actions/workflows/stripe_to_readme.yml)" > README.md
+          echo "[![.github/workflows/squash-commits.yml](https://github.com/whstu/GreenHubLicence/actions/workflows/squash-commits.yml/badge.svg)](https://github.com/whstu/GreenHubLicence/actions/workflows/squash-commits.yml)" >> README.md
+          echo "# GreenHubLicence" >> README.md
+          echo -e "获取 GreenHub 许可证。\n" >> README.md
+          echo "## 获取到的 GreenHub 许可证 （$current_date 更新）（时间标准：UTC+0）" >> README.md
+          echo "\`\`\`" >> README.md
+          cat license_codes.txt >> README.md
+          echo "\`\`\`" >> README.md
+          echo -e "\n## 注意事项\n\n本项目的代码仅限用于科学研究目的，请勿将其用于其他用途。\n" >> README.md
+
+          # 创建日期和小时的 .md 文件并写入 license_code
+          echo "## $current_date 的 GreenHub 许可证" > "$current_year/$current_month/$current_day/$current_hour-$current_minute.md"
+          echo "\`\`\`" >> "$current_year/$current_month/$current_day/$current_hour-$current_minute.md"
+          cat license_codes.txt >> "$current_year/$current_month/$current_day/$current_hour-$current_minute.md"
+          echo "\`\`\`" >> "$current_year/$current_month/$current_day/$current_hour-$current_minute.md"
+
+      # 提交并推送更改
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "更新 README.md 并增加 $current_date.md"
+          git push
